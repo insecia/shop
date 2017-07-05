@@ -56,33 +56,20 @@ final class ShopMessageDescription implements EventMachineDescription
         ],
         'email' => [
             'type' => 'string',
-            'minLength' => 1
+            'format' => 'email'
         ]
     ];
 
     public static function describe(EventMachine $eventMachine) :void
     {
-        $propertyConfig = JsonSchema::object(self::PROPERTY_CONFIG);
+        $createShopConfig = JsonSchema::object(self::PROPERTY_CONFIG);
+        $eventMachine->registerCommand(Command::CREATE_SHOP, $createShopConfig);
+        $eventMachine->registerEvent(Event::SHOP_WAS_CREATED, $createShopConfig);
 
-        $eventMachine->registerCommand(Command::CREATE_SHOP, $propertyConfig);
-        $eventMachine->registerEvent(Event::SHOP_WAS_CREATED, $propertyConfig);
-
-        $eventMachine->registerCommand(Command::CHANGE_SHOP_DATA, JsonSchema::object([
-            'shopId' => self::PROPERTY_CONFIG['shopId']
-        ], [
-            'newName' => self::PROPERTY_CONFIG['name'],
-            'newDescription' => self::PROPERTY_CONFIG['description'],
-            'newCompany' => self::PROPERTY_CONFIG['company'],
-            'newStreet' => self::PROPERTY_CONFIG['street'],
-            'newZipcode' => self::PROPERTY_CONFIG['zipcode'],
-            'newCity' => self::PROPERTY_CONFIG['city'],
-            'newCountry' => self::PROPERTY_CONFIG['country'],
-            'newEmail' => self::PROPERTY_CONFIG['email']
-        ]));
-
-        $eventMachine->registerEvent(Event::SHOP_DATA_WAS_CHANGED, JsonSchema::object(
-            self::PROPERTY_CONFIG, 
+        $changeShopDataConfig = JsonSchema::object(
             [
+                'shopId' => self::PROPERTY_CONFIG['shopId']
+            ], [
                 'newName' => self::PROPERTY_CONFIG['name'],
                 'newDescription' => self::PROPERTY_CONFIG['description'],
                 'newCompany' => self::PROPERTY_CONFIG['company'],
@@ -92,6 +79,8 @@ final class ShopMessageDescription implements EventMachineDescription
                 'newCountry' => self::PROPERTY_CONFIG['country'],
                 'newEmail' => self::PROPERTY_CONFIG['email']
             ]
-        ));
+        );
+        $eventMachine->registerCommand(Command::CHANGE_SHOP_DATA, $changeShopDataConfig);
+        $eventMachine->registerEvent(Event::SHOP_DATA_WAS_CHANGED, $changeShopDataConfig);
     }
 }

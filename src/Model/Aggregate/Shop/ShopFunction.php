@@ -28,7 +28,7 @@ final class ShopFunction
 
     public static function changeShopData(ShopState $shop, Message $changeShopData)
     {
-        yield array_merge($shop->toArray(), $changeShopData->payload());
+        yield $changeShopData->payload();
     }
 
     public static function whenShopDataWasChanged(ShopState $shop, Message $shopDataWasChanged) :ShopState 
