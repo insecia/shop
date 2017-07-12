@@ -19,6 +19,12 @@ class ShopState implements ValueObject
     public $shopId;
     public $name;
     public $description;
+    public $company;
+    public $street;
+    public $zipcode;
+    public $city;
+    public $country;
+    public $email;
 
     public static function fromArray(array $data) :ValueObject
     {
