@@ -17,5 +17,10 @@ final class Command
     const CREATE_SHOP = 'App.CreateShop';
     const CHANGE_SHOP_DATA = 'App.ChangeShopData';
 
+    const CREATE_CATEGORY = 'App.CreateCategory';
+    const CHANGE_CATEGORY_DATA = 'App.ChangeCategoryData';
+    const PUBLISH_CATEGORY = 'App.PublishCategory';
+    const CONCEIL_CATEGORY = 'App.ConceilCategory';
+
     private function __construct() { }
 }

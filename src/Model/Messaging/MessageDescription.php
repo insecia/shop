@@ -14,11 +14,14 @@ namespace Insecia\Shop\Model\Messaging;
 
 use Prooph\EventMachine\EventMachineDescription;
 use Prooph\EventMachine\EventMachine;
+use Insecia\Shop\Model\Messaging\Description\ShopMessageDescription;
+use Insecia\Shop\Model\Messaging\Description\CategoryMessageDescription;
 
 final class MessageDescription implements EventMachineDescription 
 {
     public static function describe(EventMachine $eventMachine) :void 
     {
-        \Insecia\Shop\Model\Messaging\Description\ShopMessageDescription::describe($eventMachine);
+        ShopMessageDescription::describe($eventMachine);
+        CategoryMessageDescription::describe($eventMachine);
     }
 }
