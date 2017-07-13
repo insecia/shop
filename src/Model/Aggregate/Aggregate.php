@@ -15,6 +15,7 @@ namespace Insecia\Shop\Model\Aggregate;
 final class Aggregate
 {
     const SHOP = 'Shop';
+    const CATEGORY = 'Category';
 
     private function __construct() { }
 }

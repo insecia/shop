@@ -5,6 +5,7 @@ namespace App\Config;
 
 use Insecia\Shop\Model\Messaging\MessageDescription;
 use Insecia\Shop\Model\Aggregate\Shop\ShopDescription;
+use Insecia\Shop\Model\Aggregate\Category\CategoryDescription;
 
 return [
     'environment' => getenv('PROOPH_ENV')?: 'prod',
@@ -20,7 +21,8 @@ return [
     'event_machine' => [
         'descriptions' => [
           MessageDescription::class,
-          ShopDescription::class
+          ShopDescription::class,
+          CategoryDescription::class
         ]
     ]
 ];

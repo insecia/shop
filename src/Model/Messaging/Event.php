@@ -17,5 +17,10 @@ final class Event
     const SHOP_WAS_CREATED = 'App.ShopWasCreated';
     const SHOP_DATA_WAS_CHANGED = 'App.ShopDataWasChanged';
 
+    const CATEGORY_WAS_CREATED = 'App.CategoryWasCreated';
+    const CATEGORY_DATA_WAS_CHANGED = 'App.CategoryDataWasChanged';
+    const CATEGORY_WAS_PUBLISHED = 'App.CategoryWasPublished';
+    const CATEGORY_WAS_CONCEILED = 'App.CategoryWasConceiled';
+
     private function __construct() { }
 }

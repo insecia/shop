@@ -10,34 +10,28 @@
 
 declare(strict_types = 1);
 
-namespace Insecia\Shop\Model\Aggregate\Shop;
+namespace Insecia\Shop\Model\Aggregate\Category;
 
 use Insecia\Shop\Infrastructure\ValueObject\ValueObject;
 
-class ShopState implements ValueObject 
+class CategoryState implements ValueObject 
 {
+    public $categoryId;
+    public $parentId;
     public $shopId;
     public $name;
     public $description;
-    public $company;
-    public $street;
-    public $zipcode;
-    public $city;
-    public $country;
-    public $email;
+    public $published;
 
-    public static function fromArray(array $data) :ValueObject
+    public static function fromArray(array $data) :ValueObject 
     {
         $instance = new self();
+        $instance->categoryId = $data['categoryId'];
+        $instance->parentId = $data['parentId'];
         $instance->shopId = $data['shopId'];
         $instance->name = $data['name'];
         $instance->description = $data['description'];
-        $instance->company = $data['company'];
-        $instance->street = $data['street'];
-        $instance->zipcode = $data['zipcode'];
-        $instance->city = $data['city'];
-        $instance->country = $data['country'];
-        $instance->email = $data['email'];
+        $instance->published = $data['published'] ?? false;
         return $instance;
     }
 
