@@ -26,7 +26,10 @@ final class CategoryMessageDescription implements EventMachineDescription {
             'pattern' => '^[A-Za-z0-9-]{36}$'
         ],
         'parentId' => [
-            'type' => ['string', 'null'],
+            'type' => [
+                'string', 
+                'null'
+            ],
             'pattern' => '^[A-Za-z0-9-]{36}$'
         ],
         'shopId' => [
@@ -51,7 +54,7 @@ final class CategoryMessageDescription implements EventMachineDescription {
             ]
         ]);
 
-        $changeCategoryConfig = JsonSchema::object(            
+        $changeCategoryDataConfig = JsonSchema::object(            
             [
                 'categoryId' => self::PROPERTY_CONFIG['categoryId']
             ], [
@@ -67,8 +70,8 @@ final class CategoryMessageDescription implements EventMachineDescription {
         $eventMachine->registerCommand(Command::CREATE_CATEGORY, $createCategoryConfig);
         $eventMachine->registerEvent(Event::CATEGORY_WAS_CREATED, $createCategoryConfig);
 
-        $eventMachine->registerCommand(Command::CHANGE_CATEGORY_DATA, $changeCategoryConfig);
-        $eventMachine->registerEvent(Event::CATEGORY_DATA_WAS_CHANGED, $changeCategoryConfig);
+        $eventMachine->registerCommand(Command::CHANGE_CATEGORY_DATA, $changeCategoryDataConfig);
+        $eventMachine->registerEvent(Event::CATEGORY_DATA_WAS_CHANGED, $changeCategoryDataConfig);
 
         $eventMachine->registerCommand(Command::PUBLISH_CATEGORY, $categoryIdConfig);
         $eventMachine->registerEvent(Event::CATEGORY_WAS_PUBLISHED, $categoryIdConfig);
