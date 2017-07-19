@@ -67,6 +67,20 @@ final class CategoryMessageDescription implements EventMachineDescription {
             'categoryId' => self::PROPERTY_CONFIG['categoryId']
         ]);
 
+        $categoryAckImageUploadConfig = JsonSchema::object(
+            ['categoryId' => self::PROPERTY_CONFIG['categoryId']], 
+            [], 
+            true
+        );
+
+        $setCategoryImageConfig = JsonSchema::object([
+            'categoryId' => self::PROPERTY_CONFIG['categoryId'],
+            'imageId' => [
+                'type' => 'string',
+                'pattern' => '^[A-Za-z0-9-]{36}$'
+            ]
+        ]);
+
         $eventMachine->registerCommand(Command::CREATE_CATEGORY, $createCategoryConfig);
         $eventMachine->registerEvent(Event::CATEGORY_WAS_CREATED, $createCategoryConfig);
 
@@ -78,5 +92,11 @@ final class CategoryMessageDescription implements EventMachineDescription {
 
         $eventMachine->registerCommand(Command::CONCEIL_CATEGORY, $categoryIdConfig);
         $eventMachine->registerEvent(Event::CATEGORY_WAS_CONCEILED, $categoryIdConfig);
+
+        $eventMachine->registerCommand(Command::ACKNOWLEDGE_CATEGORY_IMAGE_UPLOAD, $categoryAckImageUploadConfig);
+        $eventMachine->registerEvent(Event::CATEGORY_IMAGE_UPLOAD_WAS_ACKNOWLEDGED, $categoryAckImageUploadConfig);
+
+        $eventMachine->registerCommand(Command::SET_CATEGORY_IMAGE, $setCategoryImageConfig);
+        $eventMachine->registerEvent(Event::CATEGORY_IMAGE_WAS_SET, $setCategoryImageConfig);
     }
 }

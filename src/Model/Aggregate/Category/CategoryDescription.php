@@ -28,6 +28,8 @@ final class CategoryDescription implements EventMachineDescription
         self::describeChangeCategoryData($eventMachine);
         self::describePublishCategory($eventMachine);
         self::describeConceilCategory($eventMachine);
+        self::describeAcknowledgeCategoryImageUpload($eventMachine);
+        self::describeSetCategoryImage($eventMachine);
     }
 
     public static function describeCreateCategory(EventMachine $eventMachine) :void 
@@ -65,5 +67,23 @@ final class CategoryDescription implements EventMachineDescription
             ->handle([CategoryFunction::class, 'conceilCategory'])
             ->recordThat(Event::CATEGORY_WAS_CONCEILED)
             ->apply([CategoryFunction::class, 'whenCategoryWasConceiled']);
+    }
+
+    public static function describeAcknowledgeCategoryImageUpload(EventMachine $eventMachine) :void
+    {
+        $eventMachine->process(Command::ACKNOWLEDGE_CATEGORY_IMAGE_UPLOAD)
+            ->withExisting(Aggregate::CATEGORY)
+            ->handle([CategoryFunction::class, 'acknowledgeCategoryImageUpload'])
+            ->recordThat(Event::CATEGORY_IMAGE_UPLOAD_WAS_ACKNOWLEDGED)
+            ->apply([CategoryFunction::class, 'whenCategoryImageUploadWasAcknowledged']);
+    }
+
+    public static function describeSetCategoryImage(EventMachine $eventMachine) :void 
+    {
+        $eventMachine->process(Command::SET_CATEGORY_IMAGE)
+            ->withExisting(Aggregate::CATEGORY)
+            ->handle([CategoryFunction::class, 'setCategoryImage'])
+            ->recordThat(Event::CATEGORY_IMAGE_WAS_SET)
+            ->apply([CategoryFunction::class, 'whenCategoryImageWasSet']);
     }
 }

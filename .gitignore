@@ -13,3 +13,4 @@ data/*
 !data/.gitkeep
 src/Example/*
 bin/example.php
+media

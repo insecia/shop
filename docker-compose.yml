@@ -12,7 +12,9 @@ services:
       - .:/var/www
 
   php:
-    image: prooph/php:7.1-fpm
+    build:
+      context: ./env/docker
+      dockerfile: php71-fpm-gd
     volumes:
       - .:/var/www
     environment:
@@ -24,6 +26,8 @@ services:
       - PDO_PWD=
       - MONGO_SERVER=mongodb://mongodb:27017
       - MONGO_DB_NAME=event_machine
+      - FILE_MANAGER_BASE_PATH=media/images
+      - API_BASE_URL=http://localhost:8080/api
 
   aggregate_projection:
       image: prooph/php:7.1-cli

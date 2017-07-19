@@ -12,6 +12,11 @@ use bitExpert\Disco\Annotations\Configuration;
 use bitExpert\Disco\Annotations\Parameter;
 use bitExpert\Disco\Annotations\Parameters;
 use bitExpert\Disco\BeanFactoryRegistry;
+use Insecia\Shop\Http\FileServiceMiddleware;
+use Insecia\Shop\Http\FileServiceUploadMiddleware;
+use Insecia\Shop\Infrastructure\FileManager\AdapterInterface;
+use Insecia\Shop\Infrastructure\FileManager\HardDriveAdapter;
+use Insecia\Shop\Infrastructure\FileManager\ImageManager;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use MongoDB\Client;
 use Monolog\Handler\StreamHandler;
@@ -100,6 +105,24 @@ class AppConfiguration
     public function eventMachineHttpMessageSchema(): MiddlewareInterface
     {
         return new MessageSchemaMiddleware($this->eventMachine());
+    }
+
+    /**
+     * @Bean
+     * @return MiddlewareInterface
+     */
+    public function fileService(): MiddlewareInterface
+    {
+        return new FileServiceMiddleware($this->eventMachine());
+    }
+
+    /**
+     * @Bean
+     * @return MiddlewareInterface
+     */
+    public function fileUploadService() :MiddlewareInterface
+    {
+        return new FileServiceUploadMiddleware($this->eventMachine());
     }
 
     /**
@@ -230,5 +253,27 @@ class AppConfiguration
         $streamHandler = new StreamHandler('php://stderr');
 
         return new Logger([$streamHandler]);
+    }
+
+    /**
+     * @Bean
+     * @Parameters({
+     *  @Parameter({"name" = "config.fileManager.basePath"})
+     * })
+     * @param string $basePath
+     * @return \HardDriveAdapter
+     */
+    public function fileManagerAdapter(string $basePath) :AdapterInterface 
+    {
+        return new HardDriveAdapter($basePath);
+    }
+
+    /**
+     * @Bean
+     * @return \ImageManager
+     */
+    public function imageManager() :ImageManager 
+    {
+        return new ImageManager($this->fileManagerAdapter());
     }
 }
