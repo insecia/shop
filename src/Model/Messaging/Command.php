@@ -22,5 +22,8 @@ final class Command
     const PUBLISH_CATEGORY = 'App.PublishCategory';
     const CONCEIL_CATEGORY = 'App.ConceilCategory';
 
+    const ACKNOWLEDGE_CATEGORY_IMAGE_UPLOAD = 'App.AcknowledgeCategoryImageUpload';
+    const SET_CATEGORY_IMAGE = 'App.SetCategoryImage';
+
     private function __construct() { }
 }

@@ -60,5 +60,30 @@ final class CategoryFunction
         return $category;
     }
 
+    public static function acknowledgeCategoryImageUpload(
+        CategoryState $category, 
+        Message $acknowledgeCategoryImageUpload
+    ) {
+        yield $acknowledgeCategoryImageUpload->payload();
+    }
+
+    public static function whenCategoryImageUploadWasAcknowledged(
+        CategoryState $category, 
+        Message $categoryUploadWasAcknowledged
+    ) :CategoryState {
+        return $category;
+    }
+
+    public static function setCategoryImage(CategoryState $category, Message $setCategoryImage) 
+    {
+        yield $setCategoryImage->payload();
+    }
+
+    public static function whenCategoryImageWasSet(CategoryState $category, Message $categoryImageWasSet) 
+    {
+        $category->imageId = $categoryImageWasSet->payload()['imageId'];
+        return $category;
+    }
+
     private function __construct() { }
 }

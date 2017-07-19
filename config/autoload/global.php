@@ -24,5 +24,8 @@ return [
           ShopDescription::class,
           CategoryDescription::class
         ]
+    ],
+    'fileManager' => [
+        'basePath' => getenv('FILE_MANAGER_BASE_PATH')
     ]
 ];

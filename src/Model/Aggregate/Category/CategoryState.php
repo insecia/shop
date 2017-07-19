@@ -22,6 +22,7 @@ class CategoryState implements ValueObject
     public $name;
     public $description;
     public $published;
+    public $imageId;
 
     public static function fromArray(array $data) :ValueObject 
     {
@@ -32,6 +33,7 @@ class CategoryState implements ValueObject
         $instance->name = $data['name'];
         $instance->description = $data['description'];
         $instance->published = $data['published'] ?? false;
+        $instance->imageId = null;
         return $instance;
     }
 
