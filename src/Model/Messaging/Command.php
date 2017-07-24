@@ -21,6 +21,7 @@ final class Command
     const CHANGE_CATEGORY_DATA = 'App.ChangeCategoryData';
     const PUBLISH_CATEGORY = 'App.PublishCategory';
     const CONCEIL_CATEGORY = 'App.ConceilCategory';
+    const DELETE_CATEGORY = 'App.DeleteCategory';
 
     const ACKNOWLEDGE_CATEGORY_IMAGE_UPLOAD = 'App.AcknowledgeCategoryImageUpload';
     const SET_CATEGORY_IMAGE = 'App.SetCategoryImage';

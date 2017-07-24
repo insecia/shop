@@ -21,9 +21,15 @@ final class Event
     const CATEGORY_DATA_WAS_CHANGED = 'App.CategoryDataWasChanged';
     const CATEGORY_WAS_PUBLISHED = 'App.CategoryWasPublished';
     const CATEGORY_WAS_CONCEILED = 'App.CategoryWasConceiled';
+    const CATEGORY_WAS_DELETED = 'App.CategoryWasDeleted';
 
     const CATEGORY_IMAGE_UPLOAD_WAS_ACKNOWLEDGED = 'App.CategoryImageUploadWasAcknowledged';
     const CATEGORY_IMAGE_WAS_SET = 'App.CategoryImageWasSet';
+
+    public static function getEvents() {
+        $ref = new \ReflectionClass(__CLASS__);
+        return $ref->getConstants();
+    }
 
     private function __construct() { }
 }

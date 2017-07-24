@@ -87,6 +87,33 @@ final class AggregateReadModel extends AbstractReadModel
             ]);
     }
 
+    protected function deleteAggregate(Message $event, $options = []): void 
+    {
+        $aggregateId = $event->metadata()['_aggregate_id'] ?? null;
+
+        if(!$aggregateId) {
+            return;
+        }
+
+        $aggregateType = $event->metadata()['_aggregate_type'] ?? null;
+
+        if(!$aggregateType) {
+            return;
+        }
+
+        try {
+            $aggregateState = $this->eventMachine->loadAggregateState((string)$aggregateType, (string)$aggregateId);
+        } catch (AggregateNotFound $e) {
+            return;
+        }
+
+        $this->getCollection((string)$aggregateType)
+            ->deleteOne([
+                '_id' => (string)$aggregateId
+            ]);
+
+    }
+
     protected function getCollection(string $aggregateType): Collection
     {
         return $this->connection->selectCollection($this->convertAggregateTypeToCollectionName($aggregateType));
