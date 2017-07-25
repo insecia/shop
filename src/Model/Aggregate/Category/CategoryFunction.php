@@ -21,7 +21,7 @@ final class CategoryFunction
         yield $createCategory->payload();
     }
 
-    public static function whenCategoryWasCreated(Message $categoryWasCreated) :CategoryState 
+    public static function whenCategoryWasCreated(Message $categoryWasCreated): CategoryState 
     {
         return CategoryState::fromArray($categoryWasCreated->payload());
     }
@@ -31,7 +31,7 @@ final class CategoryFunction
         yield $changeCategoryData->payload();
     }
 
-    public static function whenCategoryDataWasChanged(CategoryState $category, Message $categoryDataWasChanged) :CategoryState 
+    public static function whenCategoryDataWasChanged(CategoryState $category, Message $categoryDataWasChanged): CategoryState 
     {
         $category->name = $categoryDataWasChanged->payload()['newName'] ?? $category->name;
         $category->description = $categoryDataWasChanged->payload()['newDescription'] ?? $category->description;
@@ -43,7 +43,7 @@ final class CategoryFunction
         yield $publishCategory->payload();
     }
 
-    public static function whenCategoryWasPublished(CategoryState $category, Message $categoryWasPublished) :CategoryState 
+    public static function whenCategoryWasPublished(CategoryState $category, Message $categoryWasPublished): CategoryState 
     {
         $category->published = true;
         return $category;
@@ -54,9 +54,19 @@ final class CategoryFunction
         yield $conceilCategory->payload();
     }
 
-    public static function whenCategoryWasConceiled(CategoryState $category, Message $categoryWasConceiled) :CategoryState 
+    public static function whenCategoryWasConceiled(CategoryState $category, Message $categoryWasConceiled): CategoryState 
     {
         $category->published = false;
+        return $category;
+    }
+
+    public static function deleteCategory(CategoryState $category, Message $deleteCategory) 
+    {
+        yield $deleteCategory->payload();
+    }
+
+    public static function whenCategoryWasDeleted(CategoryState $category, Message $categoryWasDeleted): CategoryState 
+    {
         return $category;
     }
 
@@ -70,7 +80,7 @@ final class CategoryFunction
     public static function whenCategoryImageUploadWasAcknowledged(
         CategoryState $category, 
         Message $categoryUploadWasAcknowledged
-    ) :CategoryState {
+    ): CategoryState {
         return $category;
     }
 
@@ -79,7 +89,7 @@ final class CategoryFunction
         yield $setCategoryImage->payload();
     }
 
-    public static function whenCategoryImageWasSet(CategoryState $category, Message $categoryImageWasSet) 
+    public static function whenCategoryImageWasSet(CategoryState $category, Message $categoryImageWasSet): CategoryState 
     {
         $category->imageId = $categoryImageWasSet->payload()['imageId'];
         return $category;

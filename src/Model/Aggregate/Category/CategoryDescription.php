@@ -22,17 +22,18 @@ final class CategoryDescription implements EventMachineDescription
 {
     const IDENTIFIER = 'categoryId';
 
-    public static function describe(EventMachine $eventMachine) :void 
+    public static function describe(EventMachine $eventMachine): void 
     {
         self::describeCreateCategory($eventMachine);
         self::describeChangeCategoryData($eventMachine);
         self::describePublishCategory($eventMachine);
         self::describeConceilCategory($eventMachine);
+        self::describeDeleteCategory($eventMachine);
         self::describeAcknowledgeCategoryImageUpload($eventMachine);
         self::describeSetCategoryImage($eventMachine);
     }
 
-    public static function describeCreateCategory(EventMachine $eventMachine) :void 
+    public static function describeCreateCategory(EventMachine $eventMachine): void 
     {
         $eventMachine->process(Command::CREATE_CATEGORY)
             ->withNew(Aggregate::CATEGORY)
@@ -42,7 +43,7 @@ final class CategoryDescription implements EventMachineDescription
             ->apply([CategoryFunction::class, 'whenCategoryWasCreated']);
     }
 
-    public static function describeChangeCategoryData(EventMachine $eventMachine) :void 
+    public static function describeChangeCategoryData(EventMachine $eventMachine): void 
     {
         $eventMachine->process(Command::CHANGE_CATEGORY_DATA)
             ->withExisting(Aggregate::CATEGORY)
@@ -51,7 +52,7 @@ final class CategoryDescription implements EventMachineDescription
             ->apply([CategoryFunction::class, 'whenCategoryDataWasChanged']);
     }
 
-    public static function describePublishCategory(EventMachine $eventMachine) :void 
+    public static function describePublishCategory(EventMachine $eventMachine): void 
     {
         $eventMachine->process(Command::PUBLISH_CATEGORY)
             ->withExisting(Aggregate::CATEGORY)
@@ -60,7 +61,7 @@ final class CategoryDescription implements EventMachineDescription
             ->apply([CategoryFunction::class, 'whenCategoryWasPublished']);
     }
 
-    public static function describeConceilCategory(EventMachine $eventMachine) :void 
+    public static function describeConceilCategory(EventMachine $eventMachine): void 
     {
         $eventMachine->process(Command::CONCEIL_CATEGORY)
             ->withExisting(Aggregate::CATEGORY)
@@ -69,7 +70,16 @@ final class CategoryDescription implements EventMachineDescription
             ->apply([CategoryFunction::class, 'whenCategoryWasConceiled']);
     }
 
-    public static function describeAcknowledgeCategoryImageUpload(EventMachine $eventMachine) :void
+    public static function describeDeleteCategory(EventMachine $eventMachine): void 
+    {
+        $eventMachine->process(Command::DELETE_CATEGORY)
+            ->withExisting(Aggregate::CATEGORY)
+            ->handle([CategoryFunction::class, 'deleteCategory'])
+            ->recordThat(Event::CATEGORY_WAS_DELETED)
+            ->apply([CategoryFunction::class, 'whenCategoryWasDeleted']);
+    }
+
+    public static function describeAcknowledgeCategoryImageUpload(EventMachine $eventMachine): void
     {
         $eventMachine->process(Command::ACKNOWLEDGE_CATEGORY_IMAGE_UPLOAD)
             ->withExisting(Aggregate::CATEGORY)
@@ -78,7 +88,7 @@ final class CategoryDescription implements EventMachineDescription
             ->apply([CategoryFunction::class, 'whenCategoryImageUploadWasAcknowledged']);
     }
 
-    public static function describeSetCategoryImage(EventMachine $eventMachine) :void 
+    public static function describeSetCategoryImage(EventMachine $eventMachine): void 
     {
         $eventMachine->process(Command::SET_CATEGORY_IMAGE)
             ->withExisting(Aggregate::CATEGORY)

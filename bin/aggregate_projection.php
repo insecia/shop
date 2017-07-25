@@ -13,6 +13,19 @@ $eventMachine = $container->get('eventMachine');
 
 $eventMachine->bootstrap();
 
+//Set default handler for all events and overwrite the ones that require different behaviour
+$events = Insecia\Shop\Model\Messaging\Event::getEvents();
+$handlers = array_fill_keys($events, function ($state, \Prooph\Common\Messaging\Message $event) {
+    /** @var \App\Infrastructure\MongoDb\AggregateReadModel $readModel */
+    $readModel = $this->readModel();
+    $readModel->stack('upsert', $event);
+});
+
+$handlers['App.CategoryWasDeleted'] = function ($state, \Prooph\Common\Messaging\Message $event) {
+    $readModel = $this->readModel();
+    $readModel->stack('deleteAggregate', $event);
+};
+
 /** @var \Prooph\EventStore\Projection\ProjectionManager $projectionManager */
 $projectionManager = $container->get('projectionManager');
 
@@ -25,11 +38,5 @@ $projection = $projectionManager->createReadModelProjection(
 );
 
 $projection->fromStream('event_stream')
-    ->whenAny(function ($state, \Prooph\Common\Messaging\Message $event) {
-        /** @var \App\Infrastructure\MongoDb\AggregateReadModel $readModel */
-        $readModel = $this->readModel();
-        $readModel->stack('upsert', $event);
-    })
+    ->when($handlers)
     ->run();
-
-

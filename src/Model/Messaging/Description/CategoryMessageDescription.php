@@ -93,6 +93,9 @@ final class CategoryMessageDescription implements EventMachineDescription {
         $eventMachine->registerCommand(Command::CONCEIL_CATEGORY, $categoryIdConfig);
         $eventMachine->registerEvent(Event::CATEGORY_WAS_CONCEILED, $categoryIdConfig);
 
+        $eventMachine->registerCommand(Command::DELETE_CATEGORY, $categoryIdConfig);
+        $eventMachine->registerEvent(Event::CATEGORY_WAS_DELETED, $categoryIdConfig);
+
         $eventMachine->registerCommand(Command::ACKNOWLEDGE_CATEGORY_IMAGE_UPLOAD, $categoryAckImageUploadConfig);
         $eventMachine->registerEvent(Event::CATEGORY_IMAGE_UPLOAD_WAS_ACKNOWLEDGED, $categoryAckImageUploadConfig);
 
