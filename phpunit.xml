@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true">
+    <testsuite name="Insecia Shop Test Suite">
+        <directory>./tests/Model/</directory>
+    </testsuite>
+
+    <filter>
+        <whitelist>
+            <directory>./src/Model/</directory>
+        </whitelist>
+    </filter>
+</phpunit>
